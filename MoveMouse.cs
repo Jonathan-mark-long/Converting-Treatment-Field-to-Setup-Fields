@@ -275,7 +275,7 @@ namespace MoveMouse
         }
 
         [Flags]
-        public enum MouseEventFlags
+        private enum MouseEventFlags
         {
             LeftDown = 0x00000002,
             LeftUp = 0x00000004,
@@ -298,17 +298,17 @@ namespace MoveMouse
         [DllImport("user32.dll")]
         private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
-        public static void SetCursorPosition(int x, int y)
+        private static void SetCursorPosition(int x, int y)
         {
             SetCursorPos(x, y);
         }
 
-        public static void SetCursorPosition(MousePoint point)
+        private static void SetCursorPosition(MousePoint point)
         {
             SetCursorPos(point.X, point.Y);
         }
 
-        public static MousePoint GetCursorPosition()
+        private static MousePoint GetCursorPosition()
         {
             MousePoint currentMousePoint;
             var gotPoint = GetCursorPos(out currentMousePoint);
@@ -316,7 +316,7 @@ namespace MoveMouse
             return currentMousePoint;
         }
 
-        public static void MouseEvent(MouseEventFlags value)
+        private static void MouseEvent(MouseEventFlags value)
         {
             MousePoint position = GetCursorPosition();
 
@@ -330,7 +330,7 @@ namespace MoveMouse
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MousePoint
+        private struct MousePoint
         {
             public int X;
             public int Y;
@@ -343,13 +343,13 @@ namespace MoveMouse
         }
 
         [DllImport("user32.dll")]
-        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
+        private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
 
 
 
 
         [Flags]
-        public enum KeyEventFlags
+        private enum KeyEventFlags
         {
             VK_UP = 0x26, //up key
             VK_DOWN = 0x28,  //down key
@@ -360,7 +360,7 @@ namespace MoveMouse
 
 
         }
-        public static int keyPress(KeyEventFlags KeyEventFlags)
+        private static int keyPress(KeyEventFlags KeyEventFlags)
         {
             const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
             const uint KEYEVENTF_KEYUP = 0x0002;
@@ -372,26 +372,26 @@ namespace MoveMouse
         }
 
         [DllImport("user32.dll")]
-        static extern IntPtr FindWindow(IntPtr classname, string title); // extern method: FindWindow
+        private static extern IntPtr FindWindow(IntPtr classname, string title); // extern method: FindWindow
 
         [DllImport("user32.dll")]
-        static extern void MoveWindow(IntPtr hwnd, int X, int Y,
+        private static extern void MoveWindow(IntPtr hwnd, int X, int Y,
             int nWidth, int nHeight, bool rePaint);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern int GetWindowTextLength(IntPtr hWnd);
+        private static extern int GetWindowTextLength(IntPtr hWnd);
 
         [DllImport("user32.dll")]
-        static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+        private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        private static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
+        private struct RECT
         {
             public int Left;
             public int Top;
@@ -399,9 +399,9 @@ namespace MoveMouse
             public int Bottom;
         }
 
-        delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
-        static List<IntPtr> GetAllWindows()
+        private static List<IntPtr> GetAllWindows()
         {
             List<IntPtr> windows = new List<IntPtr>();
             EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
@@ -412,7 +412,7 @@ namespace MoveMouse
             return windows;
         }
 
-        static Tuple<int, int, int, int> WindowTuple(string Id)
+        private static Tuple<int, int, int, int> WindowTuple(string Id)
         {
 
             int left = 0;
